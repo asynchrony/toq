@@ -1,14 +1,10 @@
 {
   "name": "toq",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "tsc && node ./dist/ThingFixture.js",
-    "tsc": "tsc"
-  },
-  "author": "",
-  "license": "ISC",
+  "version": "0.1.0",
+  "description": "A Moq-like TypeScript test helper",
+  "main": "index.ts",
+  "author": "Josiah Roberts",
+  "license": "MIT",
   "dependencies": {
     "ava": "^0.22.0",
     "typescript": "^2.5.3"
