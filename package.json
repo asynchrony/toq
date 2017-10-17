@@ -1,5 +1,5 @@
 {
-  "name": "toq",
+  "name": "@asynchrony/toq",
   "version": "0.1.0",
   "description": "A Moq-like TypeScript test helper",
   "main": "index.ts",
