@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && node ./dist/Toq.js",
+    "test": "tsc && node ./dist/ThingFixture.js",
     "tsc": "tsc"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ava": "^0.22.0",
     "typescript": "^2.5.3"
   }
 }

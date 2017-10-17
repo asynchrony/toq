@@ -13,8 +13,8 @@ export class MockSetupObject<TMock> {
     }
 
     constructor(private ctor: new () => TMock) {
-        let example = new ctor();
-        for (var key in example) {
+        let example = new ctor() as any;
+        for (var key of Object.getOwnPropertyNames(example.__proto__)) {
             let type = typeof (example[key]);
             let listener = this.createListner(key, type);
             if (type == "function") {

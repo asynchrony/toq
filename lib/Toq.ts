@@ -9,10 +9,12 @@ import { Verifier } from './Verifier'
 export class Toq<TMock> {
     private config: MockConfig<TMock>;
     private verifier: Verifier<TMock>;
+    public typeName: string;
 
     constructor(private type: new () => TMock) {
         this.config = new MockConfig(type);
         this.verifier = new Verifier(this.config, type);
+        this.typeName = (type as any).name;
     }
 
     public setup<TReturn>(setup: (config: TMock) => TReturn): CallConfigurer<TReturn> {

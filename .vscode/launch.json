@@ -8,11 +8,28 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/dist/Toq.js",
+            "program": "${workspaceRoot}/dist/ThingFixture.js",
             "protocol": "inspector",
             "sourceMaps": true,
             "preLaunchTask": "TSC",
             "smartStep": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Run AVA test",
+            "program": "${workspaceRoot}/node_modules/ava/profile.js",
+            "protocol": "inspector",
+            "sourceMaps": true,
+            "args": [
+                "./dist/${fileBasenameNoExtension}.js"
+            ],
+            "smartStep": true,
+            "preLaunchTask": "TSC",
+            "skipFiles": [
+                "${workspaceRoot}/node_modules",
+                "\\**"
+            ]
         }
     ]
 }
