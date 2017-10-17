@@ -1,5 +1,6 @@
 import { MemberConfig } from './MemberConfig'
-import { FunctionConfig } from "./FunctionConfig";
+import { FunctionConfig } from "./FunctionConfig"
+import { IsAny } from "./Any"
 
 export class CallMatcher {
     private matches(params: Array<any>, config: MemberConfig) {
@@ -12,7 +13,11 @@ export class CallMatcher {
             return false;
         }
 
-        for(var i = 0; i < params.length; i++) {
+        for (var i = 0; i < params.length; i++) {
+            if ((funcMatch.params[i] as IsAny).IsAny && params[i] != undefined) {
+                continue;
+            }
+
             if (funcMatch.params[i] != params[i]) {
                 return false;
             }
@@ -21,12 +26,12 @@ export class CallMatcher {
         return true;
     }
 
-    public match(name: string, params: Array<any>, calls: Array<MemberConfig>) : MemberConfig {
+    public match(name: string, params: Array<any>, calls: Array<MemberConfig>): MemberConfig {
         let nameMatches = calls.filter(x => x.name == name);
-        for(var nameMatch of nameMatches) {
+        for (var nameMatch of nameMatches) {
             if (this.matches(params, nameMatch)) {
                 return nameMatch;
-            }            
+            }
         }
         return null;
     }

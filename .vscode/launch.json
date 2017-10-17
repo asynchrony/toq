@@ -11,7 +11,8 @@
             "program": "${workspaceRoot}/dist/Toq.js",
             "protocol": "inspector",
             "sourceMaps": true,
-            "preLaunchTask": "TSC"
+            "preLaunchTask": "TSC",
+            "smartStep": true
         }
     ]
 }

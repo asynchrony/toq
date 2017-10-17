@@ -2,11 +2,17 @@ import { MockConfig } from './MockConfig'
 import { MemberConfig } from './MemberConfig'
 import { MockSetupObject } from './MockSetupObject'
 import { CallConfigurer } from './CallConfigurer'
+import { FunctionConfig } from './FunctionConfig'
+import { Any } from './Any'
+import { Verifier } from './Verifier'
 
 export class Toq<TMock> {
     private config: MockConfig<TMock>;
+    private verifier: Verifier<TMock>;
+
     constructor(private type: new () => TMock) {
-        this.config = new MockConfig<TMock>(type);
+        this.config = new MockConfig(type);
+        this.verifier = new Verifier(this.config, type);
     }
 
     public setup<TReturn>(setup: (config: TMock) => TReturn): CallConfigurer<TReturn> {
@@ -21,23 +27,8 @@ export class Toq<TMock> {
     public get object(): TMock {
         return this.config.createMock();
     }
+
+   public verify(): void {
+       this.verifier.Verify();
+   } 
 }
-
-class Thing {
-    public GetNumber(value: number): number {
-        return 12;
-    }
-
-    public String: string = "";
-}
-
-let toq = new Toq(Thing);
-
-toq.setup(x => x.String).returns("kek");
-toq.setup(x => x.GetNumber(12)).returns(18);
-
-let mock = toq.object;
-
-console.log(mock.GetNumber(12));
-console.log(mock.String);
-console.log(mock.GetNumber(1337));

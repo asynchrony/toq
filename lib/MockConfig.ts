@@ -9,6 +9,10 @@ export class MockConfig<TMock> {
         this.matcher = new CallMatcher();
     }
 
+    public getUncalled(): Array<MemberConfig> {
+        return this.configuredCalls.filter(x => !x.called);
+    }
+
     public addCall(memberConfig: MemberConfig) {
         this.configuredCalls.push(memberConfig);
     }
@@ -18,7 +22,7 @@ export class MockConfig<TMock> {
         return function(...params: Array<any>) {
             let configuredCall = _this.matcher.match(name, params, _this.configuredCalls);
             if (configuredCall != null) {
-                return configuredCall.return;
+                return configuredCall.call(params);
             } else {
                 throw new Error(`Call to ${name} with params ${JSON.stringify(params)} was not mocked.`);
             }
