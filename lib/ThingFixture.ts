@@ -26,7 +26,7 @@ export class Thing {
 
 @avaFixture(Thing, DependencyOne, DependencyTwo)
 export class ThingFixture extends Fixture<Thing> {
-
+    
     @avaTest
     public gets_twelve_and_kek(t: TestContext) {
         this.mock(DependencyOne)

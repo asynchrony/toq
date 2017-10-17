@@ -30,10 +30,10 @@ export class MockConfig<TMock> {
     } 
 
     public createMock(): TMock {
-        let example = new this.ctor();
+        let example = new this.ctor() as any;
         let mock = {} as any;
 
-        for (var key in example) {
+        for (var key of Object.getOwnPropertyNames(example.__proto__)) {
             let type = typeof (example[key]);
             let handler = this.createHandler(key);
             if (type == "function") {

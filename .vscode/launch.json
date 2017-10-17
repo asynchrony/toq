@@ -26,10 +26,7 @@
             ],
             "smartStep": true,
             "preLaunchTask": "TSC",
-            "skipFiles": [
-                "${workspaceRoot}/node_modules",
-                "\\**"
-            ]
+            "console": "integratedTerminal"
         }
     ]
 }
