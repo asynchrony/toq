@@ -1,10 +1,11 @@
 {
   "name": "@asynchrony/toq",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A Moq-like TypeScript test helper",
   "main": "./dist/index.js",
   "scripts": {
-	"build": "tsc"
+	"build": "tsc",
+	"postinstall": "tsc"
   },
   "author": "Josiah Roberts",
   "license": "MIT",
