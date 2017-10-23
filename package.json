@@ -4,8 +4,8 @@
   "description": "A Moq-like TypeScript test helper",
   "main": "./dist/index.js",
   "scripts": {
-	"build": "tsc",
-	"postinstall": "tsc"
+    "build": "tsc",
+    "postinstall": "tsc"
   },
   "author": "Josiah Roberts",
   "license": "MIT",
