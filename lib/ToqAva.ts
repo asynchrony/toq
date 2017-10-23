@@ -5,10 +5,10 @@ declare var v8debug: any;
 export function avaFixture<TClass>(constructor: new(...dependencies: Array<any>) => TClass, ...depedencyTypes: Array<new () => any>) {
     return function(target: any) {
         let type = target as new(constructor: new(...dependencies: Array<any>) => TClass, ...dependencyTypes: Array<any>) => Fixture<TClass>;
-        let fixture = new type(constructor, ...depedencyTypes) as any;
 
         let register = type.prototype as TestRegister<TClass>;
         for(var registration of register.testRegistrations) {
+            let fixture = new type(constructor, ...depedencyTypes) as any;
             test((type as any).name + ": " + registration.testName, fixture[registration.methodName].bind(fixture));
         }
     }
