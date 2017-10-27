@@ -30,7 +30,11 @@ export class Toq<TMock> {
         return this.config.createMock();
     }
 
-   public verify(): void {
-       this.verifier.Verify();
-   } 
+    public verify(): void {
+        this.verifier.verify();
+    }
+
+    public limit(): void {
+        this.verifier.limit();
+    }
 }

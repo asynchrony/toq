@@ -4,13 +4,14 @@ import { CallMatcher } from "./CallMatcher";
 
 export class MockConfig<TMock> {
     private configuredCalls : Array<MemberConfig> = [];
+    public unconfiguredCalls : Array<string> = [];
+    public get uncalledSetups(): Array<MemberConfig> {
+        return this.configuredCalls.filter(x => !x.called);
+    }
+
     private matcher : CallMatcher;
     constructor(private ctor: new () => TMock) {       
         this.matcher = new CallMatcher();
-    }
-
-    public getUncalled(): Array<MemberConfig> {
-        return this.configuredCalls.filter(x => !x.called);
     }
 
     public addCall(memberConfig: MemberConfig) {
@@ -24,7 +25,8 @@ export class MockConfig<TMock> {
             if (configuredCall != null) {
                 return configuredCall.call(params);
             } else {
-                throw new Error(`Call to ${name} with params ${JSON.stringify(params)} was not mocked.`);
+                _this.unconfiguredCalls.push(name);
+                return undefined;
             }
         }
     } 
