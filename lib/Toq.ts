@@ -1,12 +1,12 @@
 import { MockConfig } from './MockConfig'
 import { MemberConfig } from './MemberConfig'
-import { MockSetupObject } from './MockSetupObject'
+import { mockSetupObject } from './MockSetupObject'
 import { CallConfigurer } from './CallConfigurer'
 import { FunctionConfig } from './FunctionConfig'
 import { Any } from './Any'
 import { Verifier } from './Verifier'
 
-export class Toq<TMock> {
+export class Toq<TMock extends object> {
     private config: MockConfig<TMock>;
     private verifier: Verifier<TMock>;
     public typeName: string;
@@ -18,8 +18,8 @@ export class Toq<TMock> {
     }
 
     public setup<TReturn>(setup: (config: TMock) => TReturn): CallConfigurer<TReturn> {
-        let mockSetup = new MockSetupObject(this.type);
-        let setupResult = setup(mockSetup as any) as any;
+        let mockSetup = mockSetupObject<TMock>();
+        let setupResult = setup(mockSetup) as any;
         let memberConfig = setupResult as MemberConfig;
 
         this.config.addCall(memberConfig);

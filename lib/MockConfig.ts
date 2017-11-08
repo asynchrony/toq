@@ -2,7 +2,7 @@ import { MemberConfig } from './MemberConfig'
 import { FunctionConfig } from "./FunctionConfig";
 import { CallMatcher } from "./CallMatcher";
 
-export class MockConfig<TMock> {
+export class MockConfig<TMock extends object> {
     private configuredCalls : Array<MemberConfig> = [];
     public unconfiguredCalls : Array<string> = [];
     public get uncalledSetups(): Array<MemberConfig> {
@@ -32,19 +32,18 @@ export class MockConfig<TMock> {
     } 
 
     public createMock(): TMock {
-        let example = new this.ctor() as any;
-        let mock = {} as any;
-        let keys = Object.getOwnPropertyNames(example).concat(Object.getOwnPropertyNames(example.__proto__));
-        for (var key of keys) {
-            let type = typeof (example[key]);
-            let handler = this.createHandler(key);
-            if (type == "function") {
-                mock[key] = handler;
-            } else {
-                Object.defineProperty(mock, key, { get: handler });
-            }
-        }
+        let _this = this;
 
-        return mock as TMock;
+        let handler: ProxyHandler<TMock> = {
+            get(target: TMock, name: string) {
+                let configuredCall = _this.matcher.match(name, [], _this.configuredCalls);
+                return new Proxy(propertyVersion, {
+                    apply(target: PropertyConfig, thisObject: any, args: any[]) {
+                        return new FunctionConfig(target.name, args);
+                    }
+                });
+            }
+        };
+        return new Proxy({} as TMock, handler);
     }
 }
