@@ -27,12 +27,21 @@ export class CallMatcher {
     }
 
     public match(name: string, params: Array<any>, calls: Array<MemberConfig>): MemberConfig {
-        let nameMatches = calls.filter(x => x.name == name);
+        let nameMatches = calls.filter(x => x.memberName == name);
         for (var nameMatch of nameMatches) {
             if (this.matches(params, nameMatch)) {
                 return nameMatch;
             }
         }
         return null;
+    }
+
+    public matchName(name: string, calls: Array<MemberConfig>): MemberConfig {
+        let nameMatches = calls.filter(x => x.memberName == name);
+        if (nameMatches.length == 0) {
+            return undefined;
+        }
+        
+        return nameMatches[0];
     }
 }

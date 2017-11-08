@@ -1,14 +1,14 @@
 import { MockConfig } from './MockConfig'
 import { FunctionConfig } from './FunctionConfig'
 
-export class Verifier<TMock> {
+export class Verifier<TMock extends object> {
     constructor(private config: MockConfig<TMock>, private type: new () => TMock) {
 
     }
 
     private getCallExpression(asFunc: FunctionConfig) : string {
         let callExpression = asFunc.params ? `(${asFunc.params.map(x => JSON.stringify(x)).join(',')})` : '';
-        return `${asFunc.name}${callExpression}`;
+        return `${asFunc.memberName}${callExpression}`;
     }
 
     public verify(): void {

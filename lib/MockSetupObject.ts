@@ -4,12 +4,13 @@ import { PropertyConfig } from './PropertyConfig'
 export function mockSetupObject<TMock extends object>() : TMock {
     let handler: ProxyHandler<TMock> = {
         get(target: TMock, name: string) {
-            let propertyVersion = new PropertyConfig(name);
-            return new Proxy(propertyVersion, {
-                apply(target: PropertyConfig, thisObject: any, args: any[]) {
-                    return new FunctionConfig(target.name, args);
-                }
-            });
+            let propertyVersion = (...args: any[]) => {
+                return new FunctionConfig(name, args);
+            };
+            let prop = new PropertyConfig(name);
+            Object.assign(propertyVersion, prop);
+            Object.setPrototypeOf(propertyVersion, (prop as any).__proto__);;
+            return propertyVersion;
         }
     };
 

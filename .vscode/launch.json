@@ -7,6 +7,19 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Run Index",
+            "program": "${workspaceRoot}/node_modules/ava/profile.js",
+            "args": [
+                "./dist/index.js"
+            ],
+            "protocol": "inspector",
+            "sourceMaps": true,
+            "smartStep": true,
+            "preLaunchTask": "TSC"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch Program",
             "program": "${workspaceRoot}/dist/ThingFixture.js",
             "protocol": "inspector",

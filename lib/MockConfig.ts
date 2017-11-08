@@ -18,30 +18,30 @@ export class MockConfig<TMock extends object> {
         this.configuredCalls.push(memberConfig);
     }
 
-    private createHandler(name: string) : () => any {
-        let _this = this;
-        return function(...params: Array<any>) {
-            let configuredCall = _this.matcher.match(name, params, _this.configuredCalls);
-            if (configuredCall != null) {
-                return configuredCall.call(params);
-            } else {
-                _this.unconfiguredCalls.push(name);
-                return undefined;
-            }
-        }
-    } 
-
     public createMock(): TMock {
         let _this = this;
 
         let handler: ProxyHandler<TMock> = {
             get(target: TMock, name: string) {
-                let configuredCall = _this.matcher.match(name, [], _this.configuredCalls);
-                return new Proxy(propertyVersion, {
-                    apply(target: PropertyConfig, thisObject: any, args: any[]) {
-                        return new FunctionConfig(target.name, args);
-                    }
-                });
+                let configuredCall = _this.matcher.matchName(name, _this.configuredCalls);
+                if (configuredCall == null) {
+                    _this.unconfiguredCalls.push(name);
+                    return undefined;
+                }
+    
+                if (configuredCall.isFunction) {
+                    return (...params: any[]): any => {
+                        let functionCall = _this.matcher.match(name, params, _this.configuredCalls);
+                        if (functionCall == null) {
+                            _this.unconfiguredCalls.push(name);
+                            return undefined;
+                        }
+                        return functionCall.execute(params)
+                    };
+                }
+                else {
+                    return configuredCall.execute([])
+                }
             }
         };
         return new Proxy({} as TMock, handler);

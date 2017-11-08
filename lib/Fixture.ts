@@ -13,7 +13,7 @@ export abstract class Fixture<TClass> {
         this.testObject = new typeCtor(...this.mocks.map(x => x.object));
     }
 
-    protected mock<TMock>(ctor: new () => TMock) : Toq<TMock> {
+    protected mock<TMock extends object>(ctor: new () => TMock) : Toq<TMock> {
         let typeName = (ctor as any).name;
         for(var mock of this.mocks) {
             if (mock.typeName == typeName) {

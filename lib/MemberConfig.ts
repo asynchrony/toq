@@ -1,11 +1,13 @@
-export class MemberConfig {
-    public name: string;
+export abstract class MemberConfig {
+    public memberName: string;
+    public abstract isFunction: boolean;
+
     private _handler: Function;
     private _callback: Function;
     private _return: any = undefined;
     private _called: number = 0;
 
-    public call(params: Array<any>) : any {
+    public execute(params: Array<any>) : any {
         this._called++;
         if (this._callback != undefined) {
             this._callback.apply(undefined, params);
@@ -27,14 +29,14 @@ export class MemberConfig {
 
     public set return(returnValue: any) {
         if (this._handler) {
-            throw new Error(`Cannot set both return and handler for setup of ${this.name}`);
+            throw new Error(`Cannot set both return and handler for setup of ${this.memberName}`);
         }
         this._return = returnValue;
     }
 
     public set handler(handler: Function) {
         if (this._return) {
-            throw new Error(`Cannot set both handler and return for setup of ${this.name}`);
+            throw new Error(`Cannot set both handler and return for setup of ${this.memberName}`);
         }
         this._handler = handler;        
     }

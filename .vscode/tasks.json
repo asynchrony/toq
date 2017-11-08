@@ -5,7 +5,7 @@
     "tasks": [
         {
             "taskName": "TSC",
-            "command": "npm run tsc",
+            "command": "npm run build",
             "type": "shell"
         }
     ]
