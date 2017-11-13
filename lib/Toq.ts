@@ -38,3 +38,11 @@ export class Toq<TMock extends object> {
         this.verifier.limit();
     }
 }
+
+export function classify<TInterface>() : new() => TInterface {
+    interface ctor {
+        new(): TInterface
+    }
+
+    return {} as ctor;
+}
