@@ -9,7 +9,8 @@ import { Verifier } from './Verifier'
 export class Toq<TMock extends object> {
     private config: MockConfig<TMock>;
     private verifier: Verifier<TMock>;
-    public typeName: string;
+    private builtMock: TMock;
+    public typeName: string;        
 
     constructor(private type: new () => TMock) {
         this.config = new MockConfig(type);
@@ -27,7 +28,8 @@ export class Toq<TMock extends object> {
     }
 
     public get object(): TMock {
-        return this.config.createMock();
+        this.builtMock = this.builtMock || this.config.createMock();
+        return this.builtMock;
     }
 
     public verify(): void {
