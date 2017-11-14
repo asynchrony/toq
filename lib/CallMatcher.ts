@@ -27,7 +27,7 @@ export class CallMatcher {
     }
 
     public matchFunction(name: string, params: Array<any>, calls: Array<MemberConfig>): MatchSet {
-        let nameMatches = calls.filter(x => x.memberName == name);
+        let nameMatches = calls.filter(x => x.memberName == name).reverse();
         let argMatches = nameMatches.filter(x => this.matches(params, x));
         let primary = argMatches.sort((a, b) => a.anyCount - b.anyCount)[0];
         if (primary) {
@@ -39,7 +39,7 @@ export class CallMatcher {
     }
 
     public matchName(name: string, calls: Array<MemberConfig>): MemberConfig {
-        let nameMatches = calls.filter(x => x.memberName == name);
+        let nameMatches = calls.filter(x => x.memberName == name).reverse();
         if (nameMatches.length == 0) {
             return undefined;
         }
