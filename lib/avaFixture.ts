@@ -14,11 +14,11 @@ export function avaFixture<TClass>(constructor?: new (...dependencies: Array<any
             let testName = (type as any).name + ": " + registration.testName;
 
             let boundTest = fixture[registration.methodName].bind(fixture);            
-            let wrapper = (context: TestContext) => {
+            let wrapper = async (context: TestContext) => {
                 if (register.beforeEachName != undefined) {
-                    fixture[register.beforeEachName](context);
+                    await fixture[register.beforeEachName](context);
                 }
-                boundTest(context);
+                return await boundTest(context);
             }
 
             if (isOnly) {
