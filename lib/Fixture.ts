@@ -14,12 +14,11 @@ export abstract class Fixture<TClass> {
     }
 
     protected mock<TMock extends object>(ctor: new () => TMock) : Toq<TMock> {
-        let typeName = (ctor as any).name;
         for(var mock of this.mocks) {
-            if (mock.typeName == typeName) {
+            if (mock.type === ctor) {
                 return mock as Toq<TMock>;
             }
         }
-        throw new Error(`No mock of type ${typeName} is available.`);
+        throw new Error(`No mock of type ${ctor.name} is available.`);
     }
 }

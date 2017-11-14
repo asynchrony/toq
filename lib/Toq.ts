@@ -12,7 +12,7 @@ export class Toq<TMock extends object> {
     private builtMock: TMock;
     public typeName: string;        
 
-    constructor(private type: new () => TMock) {
+    constructor(public type: new () => TMock) {
         this.config = new MockConfig(type);
         this.verifier = new Verifier(this.config, type);
         this.typeName = (type as any).name;
