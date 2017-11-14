@@ -1,5 +1,6 @@
 export abstract class MemberConfig {
     public memberName: string;
+    public optional: boolean = false;
     public abstract isFunction: boolean;
 
     private _handler: Function;

@@ -6,7 +6,7 @@ export class MockConfig<TMock extends object> {
     private configuredCalls : Array<MemberConfig> = [];
     public unconfiguredCalls : Array<string> = [];
     public get uncalledSetups(): Array<MemberConfig> {
-        return this.configuredCalls.filter(x => !x.called);
+        return this.configuredCalls.filter(x => (!x.called && !x.optional));
     }
 
     private matcher : CallMatcher;

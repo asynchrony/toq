@@ -18,4 +18,8 @@ export class CallConfigurer<TReturn> {
         this.memberConfig.handler = handler;
         return this;
     }
+
+    public optional() {
+        this.memberConfig.optional = true;
+    }
 }
