@@ -38,7 +38,7 @@ export class MockConfig<TMock extends object> {
                 let configuredCall = _this.matcher.matchName(name, _this.configuredCalls);
                 if (configuredCall == null) {
                     _this.unconfiguredCalls.push(name);
-                    return (): undefined => undefined;
+                    return undefined;
                 }
     
                 if (configuredCall.isFunction) {
