@@ -14,6 +14,18 @@ export class MockConfig<TMock extends object> {
         this.matcher = new CallMatcher();
     }
 
+    private createFunctionHandler(name: string) {
+        let _this = this;
+        return (...params: any[]): any => {
+            let functionCall = _this.matcher.match(name, params, _this.configuredCalls);
+            if (functionCall == null) {
+                _this.unconfiguredCalls.push(name);
+                return undefined;
+            }
+            return functionCall.execute(params)
+        };
+    }
+
     public addCall(memberConfig: MemberConfig) {
         this.configuredCalls.push(memberConfig);
     }
@@ -26,18 +38,11 @@ export class MockConfig<TMock extends object> {
                 let configuredCall = _this.matcher.matchName(name, _this.configuredCalls);
                 if (configuredCall == null) {
                     _this.unconfiguredCalls.push(name);
-                    return undefined;
+                    return (): undefined => undefined;
                 }
     
                 if (configuredCall.isFunction) {
-                    return (...params: any[]): any => {
-                        let functionCall = _this.matcher.match(name, params, _this.configuredCalls);
-                        if (functionCall == null) {
-                            _this.unconfiguredCalls.push(name);
-                            return undefined;
-                        }
-                        return functionCall.execute(params)
-                    };
+                    return _this.createFunctionHandler(name)
                 }
                 else {
                     return configuredCall.execute([])

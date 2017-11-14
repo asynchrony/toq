@@ -1,6 +1,6 @@
 {
   "name": "@asynchrony/toq",
-  "version": "0.1.8-alpha",
+  "version": "0.1.9-alpha",
   "description": "A Moq-like TypeScript test helper",
   "main": "./dist/index.js",
   "scripts": {
