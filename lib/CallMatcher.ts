@@ -26,14 +26,16 @@ export class CallMatcher {
         return true;
     }
 
-    public match(name: string, params: Array<any>, calls: Array<MemberConfig>): MemberConfig {
+    public matchFunction(name: string, params: Array<any>, calls: Array<MemberConfig>): MatchSet {
         let nameMatches = calls.filter(x => x.memberName == name);
-        for (var nameMatch of nameMatches) {
-            if (this.matches(params, nameMatch)) {
-                return nameMatch;
-            }
+        let argMatches = nameMatches.filter(x => this.matches(params, x));
+        let primary = argMatches.sort((a, b) => a.anyCount - b.anyCount)[0];
+        if (primary) {
+            return new MatchSet(primary, argMatches.filter(x => x != primary));
+        } else {
+            return null;
         }
-        return null;
+
     }
 
     public matchName(name: string, calls: Array<MemberConfig>): MemberConfig {
@@ -41,7 +43,11 @@ export class CallMatcher {
         if (nameMatches.length == 0) {
             return undefined;
         }
-        
+
         return nameMatches[0];
     }
+}
+
+export class MatchSet {
+    constructor(public primary: MemberConfig, public secondaries: MemberConfig[]) { }
 }
