@@ -16,3 +16,11 @@ export function only<TClass, T extends Fixture<TClass>>(target: T, propertyKey: 
     register.onlyTests = register.onlyTests || [];
     register.onlyTests.push(propertyKey);
 }
+
+export function beforeEach<TClass, T extends Fixture<TClass>>(target: T, propertyKey: string, descriptor: any) {
+    let register = target as any as TestRegister<TClass>;
+    if (register.beforeEachName != undefined) {
+        throw new Error("Cannot have more than one beforeEach per fixture!");        
+    }
+    register.beforeEachName = propertyKey;
+}
