@@ -13,12 +13,12 @@ export function avaFixture<TClass>(constructor?: new (...dependencies: Array<any
             let fixture = new type(constructor, ...depedencyTypes) as any;
             let testName = (type as any).name + ": " + registration.testName;
 
-            let test = fixture[registration.methodName].bind(fixture);            
+            let boundTest = fixture[registration.methodName].bind(fixture);            
             let wrapper = (context: TestContext) => {
                 if (register.beforeEachName != undefined) {
                     fixture[register.beforeEachName](context);
                 }
-                test(context);
+                boundTest(context);
             }
 
             if (isOnly) {
