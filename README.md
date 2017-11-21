@@ -1,6 +1,9 @@
 # Toq
 Toq is a Moq-inspired mocking library for TypeScript, with support for AVA.
 
+# Installation
+`npm install --save-dev @asynchrony/toq`
+
 # Usage
 
 ## Basic Usage
